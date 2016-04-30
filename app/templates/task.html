@@ -1,0 +1,81 @@
+<div class="col-lg-12">
+    <table class="table table-striped" style="text-align: center">
+        <thead>
+            <tr class="row">
+                <th class="col-sm-1" style="text-align: center">Id</th>
+                <th class="col-sm-4" style="text-align: center">Title</th>
+                <th class="col-sm-4" style="text-align: center">Project</th>
+                <th class="col-sm-1" style="text-align: center">Time</th>
+                <th class="col-sm-1" style="text-align: center">Resource</th>
+                <th class="col-sm-1" style="text-align: center"></th>
+                <th class="col-sm-1" style="text-align: center">
+                    <button class="btn btn-success"  data-toggle="modal" data-target="#formModal" ng-click=createTask()>Add Task</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="task in Tasks.all" class="row" ng-if="(task.id == maskId || maskId == '' || maskId == null)
+                                   && (task.title.indexOf(maskTitle) > -1 || maskTitle == '' || maskTitle == null)
+                                   && (task.project.indexOf(maskProject) > -1 || maskProject == '' || maskProject == null)
+                                   && (task.time == maskTime || maskTime == '' || maskTime == null)
+                                   && (task.resource == maskResource || maskResource == '' || maskResource == null)">
+                <td class="col-sm-1">{{task.id}}</td>
+                <td class="col-sm-2">{{task.title}}</td>
+                <td>{{task.project}}</td>
+                <td>{{task.time}}</td>
+                <td>{{task.resource}}</td>
+                <td><button class="btn btn-danger" ng-click=Tasks.delete(task.id)>Delete</button> </td>
+                <td><button class="btn btn-info" data-toggle="modal" data-target="#formModal" ng-click="setCurrentData(task)">Edit</button> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="col-sm-2"><input type="number" ng-model="maskId" class="form-control col-sm-1"></td>
+                <td><input type="text" ng-model="maskTitle" class="form-control col-sm-1"></td>
+                <td><input type="text" ng-model="maskProject" class="form-control col-sm-1"></td>
+                <td><input type="number" ng-model="maskTime" class="form-control col-sm-1"></td>
+                <td><input type="number" ng-model="maskResource" class="form-control col-sm-1"></td>
+                <td></td>
+                <td class="btn btn-primary">Filter</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div id="formModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Redact task</h4>
+            </div>
+            <div class="modal-body">
+                <label>
+                    Title:<input type="text" ng-model="redactedTask.title" class="form-control">
+                </label>
+                <label>
+                    Project:<input type="text" ng-model="redactedTask.project" class="form-control">
+                </label>
+                <label>
+                    Time:<input type="number" ng-model="redactedTask.time" class="form-control">
+                </label>
+                <label>
+                    Resource:<input type="number" ng-model="redactedTask.resource" class="form-control">
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-success"
+                        data-dismiss="modal"
+                        ng-click="Tasks.save(redactedTask)"
+                        ng-disabled="redactedTask.title == '' || redactedTask.title == null
+                        || redactedTask.time == '' || redactedTask.time == null
+                        || redactedTask.resource == '' || redactedTask.resource == null">
+                    Ok
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
